@@ -16,14 +16,18 @@ import java.util.Set;
 @Entity
 @ToString
 public class Writer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(updatable = false)
     private String name;
+
     private Integer age;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

@@ -19,7 +19,7 @@ public class WriterController {
     private WriterService writerService;
 
     @PostMapping()
-    public ResponseEntity addWriter(@Valid @RequestBody WriterDto writer){
+    public ResponseEntity addWriter(@RequestBody WriterDto writer){
         ResponseDto result = writerService.addWriter(writer);
         return ResponseEntity.status(result.getStatus()).body(result);
     }

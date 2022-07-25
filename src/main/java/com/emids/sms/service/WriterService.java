@@ -44,6 +44,7 @@ public class WriterService implements IWriterService {
             emp.setCreatedAt(createdAtTime);
             emp.setUpdatedAt(createdAtTime);
 
+            log.info("writer before saving...." + emp);
             Writer saved = writerRepository.save(emp);
             responseDto.setData(saved);
             responseDto.setStatus(200);
@@ -92,6 +93,7 @@ public class WriterService implements IWriterService {
             writer.get().setAge(emp.getAge());
             writer.get().setGender(emp.getGender());
 
+            log.info("writer before updateing  -");
             Writer updated = writerRepository.save(writer.get());
             responseDto.setData(updated);
             responseDto.setMessage("Writer Updated");

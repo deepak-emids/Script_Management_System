@@ -15,4 +15,9 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<ExceptionDto> handleException(WriterException e, WebRequest request) {
         return new ResponseEntity<ExceptionDto>(new ExceptionDto(new Date(), e.getMessage(), e.getEType()), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(ScreenPlayException.class)
+    public ResponseEntity<ExceptionDto> handleScreenPlayException(ScreenPlayException e, WebRequest request) {
+        return new ResponseEntity<ExceptionDto>(new ExceptionDto(new Date(), e.getMessage(), e.getEType()), HttpStatus.CONFLICT);
+    }
 }
