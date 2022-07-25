@@ -40,21 +40,9 @@ public class WriterService implements IWriterService {
             emp.setAge(writer.getAge());
             emp.setGender(writer.getGender());
 
-            log.info(String.valueOf(emp));
-
             LocalDateTime createdAtTime = LocalDateTime.now();
             emp.setCreatedAt(createdAtTime);
             emp.setUpdatedAt(createdAtTime);
-
-            ScreenPlay screenplay = new ScreenPlay();
-            screenplay.setName("test");
-            screenplay.setGenre("test");
-            screenplay.setDescription("test");
-
-            Set<ScreenPlay> spset = new HashSet<>();
-            spset.add(screenplay);
-
-            emp.setScreenplay(spset);
 
             Writer saved = writerRepository.save(emp);
             responseDto.setData(saved);

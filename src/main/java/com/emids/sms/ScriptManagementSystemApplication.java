@@ -9,5 +9,4 @@ public class ScriptManagementSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ScriptManagementSystemApplication.class, args);
 	}
-
 }

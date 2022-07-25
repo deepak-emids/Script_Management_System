@@ -38,6 +38,7 @@ public class ScreenPlayService implements IScreenPlayService {
         if (foundScreenPlay != null) {
             throw new ScreenPlayException("Name already present, Use Different Name.", ExceptionType.CONFLICT);
         } else {
+
             ScreenPlay sp = new ScreenPlay();
 
             sp.setName(screenPlay.getName());
@@ -48,14 +49,11 @@ public class ScreenPlayService implements IScreenPlayService {
             sp.setCreatedAt(createdAtTime);
             sp.setUpdatedAt(createdAtTime);
 
-            Writer writer = writerRepository.findByName("deeasdp1");
+            Writer writer = writerRepository.findByName("deep");
 
-            Set<Writer> wSet = new HashSet<>();
-            wSet.add(writer);
+            writer.getScreenplay().add(sp);
 
-            sp.setWriter(wSet);
-
-            ScreenPlay saved = screenPlayRepository.save(sp);
+            Writer saved = writerRepository.save(writer);
             responseDto.setData(saved);
             responseDto.setStatus(200);
             responseDto.setMessage("screenPlay Registered");
@@ -83,13 +81,13 @@ public class ScreenPlayService implements IScreenPlayService {
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
         log.info(String.valueOf(screenPlay));
 
-        //if (screenPlay.isEmpty()) {
-        //throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
-        //} else {
-        responseDto.setData(screenPlay);
-        responseDto.setMessage("screenPlay Found");
-        responseDto.setStatus(200);
-        //}
+        if (screenPlay.isEmpty()) {
+            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+        } else {
+            responseDto.setData(screenPlay);
+            responseDto.setMessage("screenPlay Found");
+            responseDto.setStatus(200);
+        }
         return responseDto;
     }
 
