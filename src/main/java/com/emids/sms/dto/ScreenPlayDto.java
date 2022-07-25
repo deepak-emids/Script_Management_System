@@ -1,22 +1,22 @@
 package com.emids.sms.dto;
 
 import com.emids.sms.model.Gender;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Data
-public class WriterDto {
+public class ScreenPlayDto {
     @NotNull
     public String name;
 
     @NotNull
-    public int age;
+    public String genre;
 
     @NotNull
-    public Gender gender;
+    public String description;
 }

@@ -55,7 +55,7 @@ public class WriterService implements IWriterService {
         writerRepository.findAll().forEach(writer::add);
 
         if (writer.size() == 0) {
-            throw new WriterException("Writer Not Found", ExceptionType.Writer_NOT_FOUND);
+            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
             responseDto.setData(writer);
             responseDto.setStatus(200);
@@ -69,8 +69,8 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-            System.out.println("hi");
-            throw new WriterException("Writer Not Found", ExceptionType.Writer_NOT_FOUND);
+           
+            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
             responseDto.setData(writer);
             responseDto.setMessage("Writer Found");
@@ -84,7 +84,7 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-            throw new WriterException("Writer Not Found", ExceptionType.Writer_NOT_FOUND);
+            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
             writer.get().setName(emp.getName());
             writer.get().setAge(emp.getAge());
@@ -103,7 +103,7 @@ public class WriterService implements IWriterService {
 
         System.out.println(writer);
         if (writer.isEmpty()) {
-            throw new WriterException("Writer Not Found", ExceptionType.Writer_NOT_FOUND);
+            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
             writerRepository.deleteById(id);
             responseDto.setData("");

@@ -1,6 +1,5 @@
 package com.emids.sms.controller;
 
-import com.emids.sms.converter.DtoConverter;
 import com.emids.sms.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +18,6 @@ public class WriterController {
 
     @Autowired
     private WriterService writerService;
-
-    @Autowired
-    private DtoConverter converter;
 
     @PostMapping()
     public ResponseEntity addWriter(@Valid @RequestBody WriterDto writer){

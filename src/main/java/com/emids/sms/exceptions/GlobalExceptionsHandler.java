@@ -12,7 +12,7 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionsHandler {
     @ExceptionHandler(WriterException.class)
-    public ResponseEntity<ExceptionDto> handleEmployeeException(WriterException e, WebRequest request) {
+    public ResponseEntity<ExceptionDto> handleException(WriterException e, WebRequest request) {
         return new ResponseEntity<ExceptionDto>(new ExceptionDto(new Date(), e.getMessage(), e.getEType()), HttpStatus.CONFLICT);
     }
 }
