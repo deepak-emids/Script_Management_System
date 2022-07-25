@@ -12,7 +12,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/screenPlay")
+@RequestMapping("/screenplay")
 public class ScreenPlayController {
 
     @Autowired

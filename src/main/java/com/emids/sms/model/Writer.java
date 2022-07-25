@@ -3,15 +3,18 @@ package com.emids.sms.model;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import lombok.*;
+import org.springframework.data.annotation.ReadOnlyProperty;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
-@Data
 @Entity
 @ToString
-@NoArgsConstructor
 public class Writer {
 
     @Id
@@ -23,4 +26,18 @@ public class Writer {
     private Gender gender;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "writer_screenplay",
+            joinColumns = {@JoinColumn(name = "writer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "screenplay_id")})
+    private Set<ScreenPlay> screenplay = new HashSet<>();
+
+    public Set<ScreenPlay> getScreenPlay() {
+        return screenplay;
+    }
+
+    public void setScreenPlay(Set<ScreenPlay> screenplay) {
+        this.screenplay = screenplay;
+    }
 }

@@ -4,15 +4,16 @@ import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.dto.ScreenPlayDto;
 import com.emids.sms.exceptions.ExceptionType;
 import com.emids.sms.exceptions.ScreenPlayException;
+import com.emids.sms.model.Gender;
 import com.emids.sms.model.ScreenPlay;
+import com.emids.sms.model.Writer;
 import com.emids.sms.repository.ScreenPlayRepository;
+import com.emids.sms.repository.WriterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ScreenPlayService implements IScreenPlayService {
@@ -22,6 +23,10 @@ public class ScreenPlayService implements IScreenPlayService {
 
     @Autowired
     ResponseDto responseDto;
+
+    @Autowired
+    public WriterRepository writerRepository;
+
 
     @Override
     public ResponseDto addScreenPlay(ScreenPlayDto screenPlay) {
@@ -41,6 +46,13 @@ public class ScreenPlayService implements IScreenPlayService {
             sp.setCreatedAt(createdAtTime);
             sp.setUpdatedAt(createdAtTime);
 
+            Writer writer = writerRepository.findByName("deeasdp1");
+
+            Set<Writer> wSet = new HashSet<>();
+            wSet.add(writer);
+
+            sp.setWriter(wSet);
+
             ScreenPlay saved = screenPlayRepository.save(sp);
             responseDto.setData(saved);
             responseDto.setStatus(200);
@@ -56,6 +68,7 @@ public class ScreenPlayService implements IScreenPlayService {
         if (screenPlay.size() == 0) {
             throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
         } else {
+
             responseDto.setData(screenPlay);
             responseDto.setStatus(200);
             responseDto.setMessage("screenPlays Fetched");

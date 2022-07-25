@@ -1,13 +1,13 @@
 package com.emids.sms.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.exceptions.WriterException;
 import com.emids.sms.exceptions.ExceptionType;
+import com.emids.sms.model.ScreenPlay;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,7 @@ import com.emids.sms.dto.WriterDto;
 import com.emids.sms.model.Writer;
 import com.emids.sms.repository.WriterRepository;
 
+@Slf4j
 @Service
 public class WriterService implements IWriterService {
 
@@ -27,6 +28,7 @@ public class WriterService implements IWriterService {
     @Override
     public ResponseDto addWriter(WriterDto writer) {
 
+        log.info(String.valueOf(writer));
         Writer foundWriter = writerRepository.findByName(writer.getName());
 
         if (foundWriter != null) {
@@ -38,9 +40,21 @@ public class WriterService implements IWriterService {
             emp.setAge(writer.getAge());
             emp.setGender(writer.getGender());
 
+            log.info(String.valueOf(emp));
+
             LocalDateTime createdAtTime = LocalDateTime.now();
             emp.setCreatedAt(createdAtTime);
             emp.setUpdatedAt(createdAtTime);
+
+            ScreenPlay screenplay = new ScreenPlay();
+            screenplay.setName("test");
+            screenplay.setGenre("test");
+            screenplay.setDescription("test");
+
+            Set<ScreenPlay> spset = new HashSet<>();
+            spset.add(screenplay);
+
+            emp.setScreenPlay(spset);
 
             Writer saved = writerRepository.save(emp);
             responseDto.setData(saved);
@@ -69,7 +83,7 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-           
+
             throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
             responseDto.setData(writer);
@@ -88,6 +102,7 @@ public class WriterService implements IWriterService {
         } else {
             writer.get().setName(emp.getName());
             writer.get().setAge(emp.getAge());
+            writer.get().setGender(emp.getGender());
 
             Writer updated = writerRepository.save(writer.get());
             responseDto.setData(updated);
