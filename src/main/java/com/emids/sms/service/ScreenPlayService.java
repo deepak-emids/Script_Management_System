@@ -9,12 +9,14 @@ import com.emids.sms.model.ScreenPlay;
 import com.emids.sms.model.Writer;
 import com.emids.sms.repository.ScreenPlayRepository;
 import com.emids.sms.repository.WriterRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 public class ScreenPlayService implements IScreenPlayService {
 
@@ -79,14 +81,15 @@ public class ScreenPlayService implements IScreenPlayService {
     @Override
     public ResponseDto getScreenPlay(int id) {
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
+        log.info(String.valueOf(screenPlay));
 
-        if (screenPlay.isEmpty()) {
-            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
-        } else {
-            responseDto.setData(screenPlay);
-            responseDto.setMessage("screenPlay Found");
-            responseDto.setStatus(200);
-        }
+        //if (screenPlay.isEmpty()) {
+        //throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+        //} else {
+        responseDto.setData(screenPlay);
+        responseDto.setMessage("screenPlay Found");
+        responseDto.setStatus(200);
+        //}
         return responseDto;
     }
 

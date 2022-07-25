@@ -54,7 +54,7 @@ public class WriterService implements IWriterService {
             Set<ScreenPlay> spset = new HashSet<>();
             spset.add(screenplay);
 
-            emp.setScreenPlay(spset);
+            emp.setScreenplay(spset);
 
             Writer saved = writerRepository.save(emp);
             responseDto.setData(saved);

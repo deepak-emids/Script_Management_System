@@ -32,12 +32,4 @@ public class Writer {
             joinColumns = {@JoinColumn(name = "writer_id")},
             inverseJoinColumns = {@JoinColumn(name = "screenplay_id")})
     private Set<ScreenPlay> screenplay = new HashSet<>();
-
-    public Set<ScreenPlay> getScreenPlay() {
-        return screenplay;
-    }
-
-    public void setScreenPlay(Set<ScreenPlay> screenplay) {
-        this.screenplay = screenplay;
-    }
 }

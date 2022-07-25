@@ -21,17 +21,9 @@ public class ScreenPlay {
     private String genre;
     private String description;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "screenplay")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Writer> writer = new HashSet<>();
 
-    public Set<Writer> getWriter() {
-        return writer;
-    }
-
-    public void setWriter(Set<Writer> writer) {
-        this.writer = writer;
-    }
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
