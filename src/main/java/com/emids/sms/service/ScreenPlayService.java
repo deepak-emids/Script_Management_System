@@ -13,8 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.lang.model.element.Name;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -86,6 +88,9 @@ public class ScreenPlayService implements IScreenPlayService {
         if (screenPlay.isEmpty()) {
             throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
         } else {
+
+            List<String> names = screenPlay.get().getWriter().stream().map(f -> f.getName()).collect(Collectors.toList());
+
             responseDto.setData(screenPlay.get());
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
