@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 public class Writer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "writer_id")
     private int id;
 
     @Column(updatable = false)

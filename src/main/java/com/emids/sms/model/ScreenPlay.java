@@ -1,6 +1,7 @@
 package com.emids.sms.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.Set;
 public class ScreenPlay {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "screenplay_id")
     private int id;
 
     private String name;
