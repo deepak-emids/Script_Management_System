@@ -1,10 +1,10 @@
 package com.emids.sms.model;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,8 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@ToString
-public class ScreenPlay {
+public class ScreenPlay implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "screenplay_id")
@@ -23,7 +22,8 @@ public class ScreenPlay {
     private String genre;
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "screenplay")
     private Set<Writer> writer = new HashSet<>();
 
     private LocalDateTime createdAt;

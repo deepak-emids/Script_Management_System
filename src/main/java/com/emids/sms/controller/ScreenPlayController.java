@@ -22,11 +22,11 @@ public class ScreenPlayController {
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
-//    @GetMapping("/screenplay")
-//    public ResponseEntity getAllScreenPlays() {
-//        ResponseDto result = screenPlayService.getAllScreenPlay();
-//        return ResponseEntity.status(result.getStatus()).body(result);
-//    }
+    @GetMapping("/screenplay")
+    public ResponseEntity getAllScreenPlays() {
+        ResponseDto result = screenPlayService.getAllScreenPlay();
+        return ResponseEntity.status(result.getStatus()).body(result);
+    }
 
     @PutMapping("screenplay/{id}")
     public ResponseEntity updateScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay, @Valid @PathVariable("id") int id) {

@@ -22,12 +22,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("username...." + username);
         Writer user = repository.findByName(username);
-        log.info("founduser...." + String.valueOf(user.getRoles()));
+
+        log.info("founduser...." + String.valueOf(user.getRole()));
 
         Writer w = new Writer();
         w.setName(user.getName());
         w.setPassword(user.getPassword());
-        w.setRoles(user.getRoles());
+        w.setRole(user.getRole());
+
         log.info("nwew user....." + String.valueOf(w));
 
         CustomUserDetails userDetails = null;

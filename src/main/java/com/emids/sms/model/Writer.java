@@ -4,20 +4,19 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.springframework.data.annotation.ReadOnlyProperty;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @Data
 @Entity
-public class Writer {
+public class Writer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "writer_id")
@@ -36,14 +35,10 @@ public class Writer {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "writer_screenplay",
-            joinColumns = {@JoinColumn(name = "writer_id")},
-            inverseJoinColumns = {@JoinColumn(name = "screenplay_id")})
+    @JsonBackReference
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ScreenPlay> screenplay = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "writer_role", joinColumns = @JoinColumn(name = "writer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
-
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Role role;
 }

@@ -24,14 +24,13 @@ public class WriterService implements IWriterService {
     public WriterRepository writerRepository;
 
     @Autowired
-    ResponseDto responseDto;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
 
     @Override
     public ResponseDto addWriter(WriterDto writer) {
+        ResponseDto responseDto = new ResponseDto();
+
 
         log.info(String.valueOf(writer));
         Writer foundWriter = writerRepository.findByName(writer.getName());
@@ -44,7 +43,7 @@ public class WriterService implements IWriterService {
             emp.setName(writer.getName());
             emp.setAge(writer.getAge());
             emp.setGender(writer.getGender());
-            emp.setRoles(writer.getRoles());
+            emp.setRole(writer.getRole());
 
             String pwd = writer.getPassword();
             String encryptPwd = passwordEncoder.encode(pwd);
@@ -65,6 +64,8 @@ public class WriterService implements IWriterService {
     }
 
     public ResponseDto getAllWriter() {
+        ResponseDto responseDto = new ResponseDto();
+
         List<Writer> writer = new ArrayList<>();
         writerRepository.findAll().forEach(writer::add);
 
@@ -80,6 +81,8 @@ public class WriterService implements IWriterService {
 
     @Override
     public ResponseDto getWriter(int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
@@ -95,6 +98,8 @@ public class WriterService implements IWriterService {
 
     @Override
     public ResponseDto updateWriter(WriterDto emp, int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
@@ -102,7 +107,7 @@ public class WriterService implements IWriterService {
         } else {
             writer.get().setAge(emp.getAge());
             writer.get().setGender(emp.getGender());
-            writer.get().setRoles(emp.getRoles());
+            writer.get().setRole(emp.getRole());
 
             String pwd = emp.getPassword();
 
@@ -121,6 +126,8 @@ public class WriterService implements IWriterService {
 
     @Override
     public ResponseDto deleteWriter(int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {

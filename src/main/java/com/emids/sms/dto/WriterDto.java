@@ -21,5 +21,5 @@ public class WriterDto {
     public int age;
     public Gender gender;
     public String password;
-    public Set<Role> roles;
+    public Role role;
 }

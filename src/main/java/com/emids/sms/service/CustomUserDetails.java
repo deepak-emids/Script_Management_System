@@ -1,20 +1,18 @@
 package com.emids.sms.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.emids.sms.model.Writer;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Slf4j
 @Getter
@@ -27,11 +25,10 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        user.getRoles().stream().forEach(role -> System.out.println("roles    " + role.getRole()));
-
-        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+        return Arrays.asList(user.getRole())
+                .stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
-
     }
 
     @Override

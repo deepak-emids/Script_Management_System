@@ -24,14 +24,13 @@ public class ScreenPlayService implements IScreenPlayService {
     public ScreenPlayRepository screenPlayRepository;
 
     @Autowired
-    ResponseDto responseDto;
-
-    @Autowired
     public WriterRepository writerRepository;
 
 
     @Override
     public ResponseDto addScreenPlay(ScreenPlayDto screenPlay) {
+
+        ResponseDto responseDto = new ResponseDto();
 
         ScreenPlay foundScreenPlay = screenPlayRepository.findByName(screenPlay.getName());
 
@@ -62,6 +61,8 @@ public class ScreenPlayService implements IScreenPlayService {
     }
 
     public ResponseDto getAllScreenPlay() {
+        ResponseDto responseDto = new ResponseDto();
+
         List<ScreenPlay> screenPlay = new ArrayList<>();
         screenPlayRepository.findAll().forEach(screenPlay::add);
 
@@ -78,13 +79,14 @@ public class ScreenPlayService implements IScreenPlayService {
 
     @Override
     public ResponseDto getScreenPlay(int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
-        log.info(String.valueOf(screenPlay));
 
         if (screenPlay.isEmpty()) {
             throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
         } else {
-            responseDto.setData(screenPlay);
+            responseDto.setData(screenPlay.get());
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
         }
@@ -93,6 +95,8 @@ public class ScreenPlayService implements IScreenPlayService {
 
     @Override
     public ResponseDto updateScreenPlay(ScreenPlayDto emp, int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
 
         if (screenPlay.isEmpty()) {
@@ -111,6 +115,8 @@ public class ScreenPlayService implements IScreenPlayService {
 
     @Override
     public ResponseDto deleteScreenPlay(int id) {
+        ResponseDto responseDto = new ResponseDto();
+
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
 
         if (screenPlay.isEmpty()) {
