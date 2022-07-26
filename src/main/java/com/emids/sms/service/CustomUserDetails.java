@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,46 +19,66 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Slf4j
 @Getter
 @Setter
-@Data
 public class CustomUserDetails implements UserDetails {
 
-    Writer writer;
+    private static final long serialVersionUID = 1256711395932122675L;
+    private Writer user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        writer.getRoles().stream().forEach(role -> log.info("roles    " + role.getRole()));
 
-        return writer.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
+        user.getRoles().stream().forEach(role -> System.out.println("roles    " + role.getRole()));
+
+        return user.getRoles().stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole()))
                 .collect(Collectors.toList());
+
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getName();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        // TODO Auto-generated method stub
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        // TODO Auto-generated method stub
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    public Writer getUser() {
+        return user;
+    }
+
+    public void setUser(Writer user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUserDetails{" +
+                "user=" + user +
+                '}';
     }
 }

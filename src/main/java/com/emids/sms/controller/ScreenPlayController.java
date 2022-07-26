@@ -17,9 +17,9 @@ public class ScreenPlayController {
 
     @Autowired
     private ScreenPlayService screenPlayService;
-    
+
     @PostMapping()
-    public ResponseEntity addScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay){
+    public ResponseEntity addScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay) {
         ResponseDto result = screenPlayService.addScreenPlay(screenPlay);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
@@ -30,11 +30,11 @@ public class ScreenPlayController {
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getScreenPlay(@Valid @PathVariable("id") int id) {
-        ResponseDto result = screenPlayService.getScreenPlay(id);
-        return ResponseEntity.status(result.getStatus()).body(result);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity getScreenPlay(@Valid @PathVariable("id") int id) {
+//        ResponseDto result = screenPlayService.getScreenPlay(id);
+//        return ResponseEntity.status(result.getStatus()).body(result);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity updateScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay, @Valid @PathVariable("id") int id) {

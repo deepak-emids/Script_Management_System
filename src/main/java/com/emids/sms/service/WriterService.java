@@ -9,6 +9,7 @@ import com.emids.sms.exceptions.ExceptionType;
 import com.emids.sms.model.ScreenPlay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.emids.sms.dto.WriterDto;
@@ -25,6 +26,10 @@ public class WriterService implements IWriterService {
     @Autowired
     ResponseDto responseDto;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+
     @Override
     public ResponseDto addWriter(WriterDto writer) {
 
@@ -40,6 +45,11 @@ public class WriterService implements IWriterService {
             emp.setAge(writer.getAge());
             emp.setGender(writer.getGender());
             emp.setRoles(writer.getRoles());
+
+            String pwd = writer.getPassword();
+            String encryptPwd = passwordEncoder.encode(pwd);
+
+            emp.setPassword(encryptPwd);
 
             LocalDateTime createdAtTime = LocalDateTime.now();
             emp.setCreatedAt(createdAtTime);
@@ -93,6 +103,15 @@ public class WriterService implements IWriterService {
             writer.get().setName(emp.getName());
             writer.get().setAge(emp.getAge());
             writer.get().setGender(emp.getGender());
+            writer.get().setRoles(emp.getRoles());
+
+            String pwd = emp.getPassword();
+            if(pwd.isEmpty()){
+
+            }else{
+                String encryptPwd = passwordEncoder.encode(pwd);
+                writer.get().setPassword(encryptPwd);
+            }
 
             log.info("writer before updateing  -");
             Writer updated = writerRepository.save(writer.get());

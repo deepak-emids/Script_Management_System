@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,11 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/admin/**")
+                .antMatchers("/writer/**")
                 .hasAnyRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
+//                .permitAll()
+//                .and()
                 .formLogin()
                 .disable()
                 .csrf()

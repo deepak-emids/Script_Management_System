@@ -6,6 +6,7 @@ import com.emids.sms.model.RoleType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.Set;
@@ -13,15 +14,12 @@ import java.util.Set;
 @Getter
 @Setter
 @Data
+@ToString
 public class WriterDto {
-    @NotNull
+
     public String name;
-
-    @NotNull
     public int age;
-
-    @NotNull
     public Gender gender;
-
+    public String password;
     public Set<Role> roles;
 }

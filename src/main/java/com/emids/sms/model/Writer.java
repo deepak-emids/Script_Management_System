@@ -14,8 +14,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
 @ToString
+@Data
+@Entity
 public class Writer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +31,8 @@ public class Writer {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    private String password;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -42,4 +45,5 @@ public class Writer {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "writer_role", joinColumns = @JoinColumn(name = "writer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+
 }
