@@ -9,10 +9,8 @@ import lombok.Setter;
 @Data
 public class WriterException extends RuntimeException {
     String message;
-    ExceptionType eType;
 
-    public WriterException(String message, ExceptionType eType) {
+    public WriterException(String message) {
         this.message = message;
-        this.eType = eType;
     }
 }

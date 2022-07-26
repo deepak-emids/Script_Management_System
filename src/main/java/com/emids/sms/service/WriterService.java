@@ -5,8 +5,6 @@ import java.util.*;
 
 import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.exceptions.WriterException;
-import com.emids.sms.exceptions.ExceptionType;
-import com.emids.sms.model.ScreenPlay;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,17 +24,14 @@ public class WriterService implements IWriterService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
     @Override
     public ResponseDto addWriter(WriterDto writer) {
         ResponseDto responseDto = new ResponseDto();
 
-
-        log.info(String.valueOf(writer));
         Writer foundWriter = writerRepository.findByName(writer.getName());
 
         if (foundWriter != null) {
-            throw new WriterException("Name already registered, Use Different Name.", ExceptionType.CONFLICT);
+            throw new WriterException("Writer already registered, Use Different Name.");
         } else {
             Writer emp = new Writer();
 
@@ -54,7 +49,6 @@ public class WriterService implements IWriterService {
             emp.setCreatedAt(createdAtTime);
             emp.setUpdatedAt(createdAtTime);
 
-            log.info("writer before saving...." + emp);
             Writer saved = writerRepository.save(emp);
             responseDto.setData(saved);
             responseDto.setStatus(200);
@@ -70,7 +64,7 @@ public class WriterService implements IWriterService {
         writerRepository.findAll().forEach(writer::add);
 
         if (writer.size() == 0) {
-            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
+            throw new WriterException("Writer Not Found");
         } else {
             responseDto.setData(writer);
             responseDto.setStatus(200);
@@ -86,8 +80,7 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-
-            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
+            throw new WriterException("Writer Not Found");
         } else {
             responseDto.setData(writer);
             responseDto.setMessage("Writer Found");
@@ -103,7 +96,7 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
+            throw new WriterException("Writer Not Found");
         } else {
             writer.get().setAge(emp.getAge());
             writer.get().setGender(emp.getGender());
@@ -131,7 +124,7 @@ public class WriterService implements IWriterService {
         Optional<Writer> writer = writerRepository.findById(id);
 
         if (writer.isEmpty()) {
-            throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
+            throw new WriterException("Writer Not Found");
         } else {
             writerRepository.deleteById(id);
             responseDto.setData("");

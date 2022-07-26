@@ -2,9 +2,7 @@ package com.emids.sms.service;
 
 import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.dto.ScreenPlayDto;
-import com.emids.sms.exceptions.ExceptionType;
 import com.emids.sms.exceptions.ScreenPlayException;
-import com.emids.sms.model.Gender;
 import com.emids.sms.model.ScreenPlay;
 import com.emids.sms.model.Writer;
 import com.emids.sms.repository.ScreenPlayRepository;
@@ -12,8 +10,6 @@ import com.emids.sms.repository.WriterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.lang.model.element.Name;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,16 +24,14 @@ public class ScreenPlayService implements IScreenPlayService {
     @Autowired
     public WriterRepository writerRepository;
 
-
     @Override
     public ResponseDto addScreenPlay(ScreenPlayDto screenPlay) {
-
         ResponseDto responseDto = new ResponseDto();
 
         ScreenPlay foundScreenPlay = screenPlayRepository.findByName(screenPlay.getName());
 
         if (foundScreenPlay != null) {
-            throw new ScreenPlayException("Name already present, Use Different Name.", ExceptionType.CONFLICT);
+            throw new ScreenPlayException("Screen already present, Use Different Name");
         } else {
 
             ScreenPlay sp = new ScreenPlay();
@@ -57,7 +51,7 @@ public class ScreenPlayService implements IScreenPlayService {
             Writer saved = writerRepository.save(writer);
             responseDto.setData(saved);
             responseDto.setStatus(200);
-            responseDto.setMessage("screenPlay Registered");
+            responseDto.setMessage("Screen Play Registered");
             return responseDto;
         }
     }
@@ -69,12 +63,12 @@ public class ScreenPlayService implements IScreenPlayService {
         screenPlayRepository.findAll().forEach(screenPlay::add);
 
         if (screenPlay.size() == 0) {
-            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+            throw new ScreenPlayException("Screen Play Not Found");
         } else {
 
             responseDto.setData(screenPlay);
             responseDto.setStatus(200);
-            responseDto.setMessage("screenPlays Fetched");
+            responseDto.setMessage("Screen Plays Fetched");
         }
         return responseDto;
     }
@@ -86,10 +80,14 @@ public class ScreenPlayService implements IScreenPlayService {
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
 
         if (screenPlay.isEmpty()) {
-            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+            throw new ScreenPlayException("Screen Play Not Found");
         } else {
-
-            List<String> names = screenPlay.get().getWriter().stream().map(f -> f.getName()).collect(Collectors.toList());
+            List<String> names = screenPlay
+                    .get()
+                    .getWriter()
+                    .stream()
+                    .map(f -> f.getName())
+                    .collect(Collectors.toList());
 
             responseDto.setData(screenPlay.get());
             responseDto.setMessage("screenPlay Found");
@@ -105,7 +103,7 @@ public class ScreenPlayService implements IScreenPlayService {
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
 
         if (screenPlay.isEmpty()) {
-            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+            throw new ScreenPlayException("screenPlay Not Found");
         } else {
             screenPlay.get().setName(emp.getName());
             screenPlay.get().setGenre(emp.getGenre());
@@ -125,7 +123,7 @@ public class ScreenPlayService implements IScreenPlayService {
         Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
 
         if (screenPlay.isEmpty()) {
-            throw new ScreenPlayException("screenPlay Not Found", ExceptionType.NOT_FOUND);
+            throw new ScreenPlayException("screenPlay Not Found");
         } else {
             screenPlayRepository.deleteById(id);
             responseDto.setData("");

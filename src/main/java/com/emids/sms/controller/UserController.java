@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.Valid;
 import java.util.Arrays;
 
@@ -41,7 +41,6 @@ public class UserController {
 
     @GetMapping("/public")
     public String test() {
-        //log.info(passwordEncoder.encode("pass123"));
         return "test";
     }
 }
