@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -28,22 +27,21 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/{id}")
+    @GetMapping("public/writer/{id}")
     public ResponseEntity getWriter(@Valid @PathVariable("id") int id) {
         ResponseDto result = writerService.getWriter(id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity getScreenPlay(@Valid @PathVariable("id") int id) {
-//        ResponseDto result = screenPlayService.getScreenPlay(id);
-//        return ResponseEntity.status(result.getStatus()).body(result);
-//    }
 
-    @GetMapping()
+    @GetMapping("public/screenplay/{id}")
+    public ResponseEntity getScreenPlay(@Valid @PathVariable("id") int id) {
+        ResponseDto result = screenPlayService.getScreenPlay(id);
+        return ResponseEntity.status(result.getStatus()).body(result);
+    }
+
+    @GetMapping("/public")
     public String test() {
         log.info(passwordEncoder.encode("pass123"));
-
         return "test";
     }
 }

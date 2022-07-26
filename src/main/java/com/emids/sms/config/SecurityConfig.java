@@ -29,18 +29,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic()
                 .and()
+
+                /*public access*/
                 .authorizeRequests()
-                .antMatchers("/user/**")
+                .antMatchers("/public/**")
                 .permitAll()
                 .and()
+
+                /*admin access*/
                 .authorizeRequests()
                 .antMatchers("/writer/**")
                 .hasAnyRole("ADMIN")
+                .and()
+
+                /*writer access*/
+                .authorizeRequests()
+                .antMatchers("/screenplay/**")
+                .hasAnyRole("WRITER")
+
+                /**/
                 .anyRequest()
                 .authenticated()
                 .and()
-//                .permitAll()
-//                .and()
+                /*other*/
                 .formLogin()
                 .disable()
                 .csrf()

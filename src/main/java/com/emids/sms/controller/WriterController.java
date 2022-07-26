@@ -14,7 +14,6 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/writer")
 public class WriterController {
 
     @Autowired
@@ -23,39 +22,27 @@ public class WriterController {
     @Autowired
     private WriterService writerService;
 
-    @GetMapping()
-    public String test() {
-        //log.info(passwordEncoder.encode("pass123"));
-
-        return "test";
-    }
-
-    @PostMapping()
+    @PostMapping("/writer")
     public ResponseEntity addWriter(@RequestBody WriterDto writer) {
         log.info("writer body....." + writer);
         ResponseDto result = writerService.addWriter(writer);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
-//    @GetMapping()
+//    @GetMapping("/writer")
 //    public ResponseEntity getAllWriters() {
 //        ResponseDto result = writerService.getAllWriter();
 //        return ResponseEntity.status(result.getStatus()).body(result);
 //    }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity getWriter(@Valid @PathVariable("id") int id) {
-//        ResponseDto result = writerService.getWriter(id);
-//        return ResponseEntity.status(result.getStatus()).body(result);
-//    }
 
-    @PutMapping("/{id}")
+    @PutMapping("/writer/{id}")
     public ResponseEntity updateWriter(@Valid @RequestBody WriterDto writer, @Valid @PathVariable("id") int id) {
         ResponseDto result = writerService.updateWriter(writer, id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/writer/{id}")
     public ResponseEntity deleteWriters(@Valid @PathVariable("id") int id) {
         ResponseDto result = writerService.deleteWriter(id);
         return ResponseEntity.status(result.getStatus()).body(result);
