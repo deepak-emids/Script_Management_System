@@ -100,20 +100,17 @@ public class WriterService implements IWriterService {
         if (writer.isEmpty()) {
             throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
-            writer.get().setName(emp.getName());
             writer.get().setAge(emp.getAge());
             writer.get().setGender(emp.getGender());
             writer.get().setRoles(emp.getRoles());
 
             String pwd = emp.getPassword();
-            if(pwd.isEmpty()){
 
-            }else{
+            if (pwd != null) {
                 String encryptPwd = passwordEncoder.encode(pwd);
                 writer.get().setPassword(encryptPwd);
             }
 
-            log.info("writer before updateing  -");
             Writer updated = writerRepository.save(writer.get());
             responseDto.setData(updated);
             responseDto.setMessage("Writer Updated");
@@ -126,7 +123,6 @@ public class WriterService implements IWriterService {
     public ResponseDto deleteWriter(int id) {
         Optional<Writer> writer = writerRepository.findById(id);
 
-        System.out.println(writer);
         if (writer.isEmpty()) {
             throw new WriterException("Writer Not Found", ExceptionType.NOT_FOUND);
         } else {
