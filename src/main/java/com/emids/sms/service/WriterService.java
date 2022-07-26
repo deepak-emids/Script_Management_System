@@ -39,6 +39,7 @@ public class WriterService implements IWriterService {
             emp.setName(writer.getName());
             emp.setAge(writer.getAge());
             emp.setGender(writer.getGender());
+            emp.setRoles(writer.getRoles());
 
             LocalDateTime createdAtTime = LocalDateTime.now();
             emp.setCreatedAt(createdAtTime);

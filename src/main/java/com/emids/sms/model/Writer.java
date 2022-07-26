@@ -38,4 +38,8 @@ public class Writer {
             joinColumns = {@JoinColumn(name = "writer_id")},
             inverseJoinColumns = {@JoinColumn(name = "screenplay_id")})
     private Set<ScreenPlay> screenplay = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "writer_role", joinColumns = @JoinColumn(name = "writer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 }

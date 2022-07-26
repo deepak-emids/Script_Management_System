@@ -8,6 +8,7 @@ import com.emids.sms.dto.WriterDto;
 import com.emids.sms.service.WriterService;
 
 import lombok.extern.slf4j.Slf4j;
+
 import javax.validation.Valid;
 
 @Slf4j
@@ -19,7 +20,8 @@ public class WriterController {
     private WriterService writerService;
 
     @PostMapping()
-    public ResponseEntity addWriter(@RequestBody WriterDto writer){
+    public ResponseEntity addWriter(@RequestBody WriterDto writer) {
+        log.info("writer body....." + writer);
         ResponseDto result = writerService.addWriter(writer);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
