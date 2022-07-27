@@ -16,20 +16,24 @@ import java.util.Set;
 @Setter
 @Data
 @Entity
+@NoArgsConstructor
 public class Writer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "writer_id")
     private int id;
 
+    @NonNull
     @Column(updatable = false)
     private String name;
 
     private Integer age;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @NonNull
     private String password;
 
     private LocalDateTime createdAt;
@@ -39,6 +43,7 @@ public class Writer implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ScreenPlay> screenplay = new HashSet<>();
 
+    @NonNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Role role;
 }

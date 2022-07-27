@@ -11,9 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -105,6 +105,17 @@ public class ScreenPlayService implements IScreenPlayService {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             log.info("String user=" + auth.getPrincipal());
 
+//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//            if (principal instanceof UserDetails) {
+//                String username = ((UserDetails) principal).getUsername();
+//                log.info("String user=" + username);
+//
+//            } else {
+//                String username = principal.toString();
+//                log.info("String user=" + username);
+//
+//            }
 
             responseDto.setData(m);
             responseDto.setMessage("screenPlay Found");
