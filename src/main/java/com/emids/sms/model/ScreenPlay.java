@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -18,7 +21,9 @@ public class ScreenPlay implements Serializable {
     @Column(name = "screenplay_id")
     private int id;
 
+    @NotBlank()
     private String name;
+
     private String genre;
     private String description;
 
