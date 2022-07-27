@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import java.io.Serializable;
@@ -39,11 +40,22 @@ public class Writer implements Serializable {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @JsonBackReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    @JsonBackReference
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//    private Set<ScreenPlay> screenplay = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "writer_screenplay",
+            joinColumns = {@JoinColumn(name = "writer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "screenplay_id")})
     private Set<ScreenPlay> screenplay = new HashSet<>();
 
     @NonNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Role role;
+
+    //@JsonBackReference-child objects will not be fetched
+    //@JsonManagedReference-child objects fetched
+
+
 }

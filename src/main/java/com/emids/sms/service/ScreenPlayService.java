@@ -32,7 +32,32 @@ public class ScreenPlayService implements IScreenPlayService {
         ScreenPlay foundScreenPlay = screenPlayRepository.findByName(screenPlay.getName());
 
         if (foundScreenPlay != null) {
-            throw new ScreenPlayException("Screen Play already present,You Update or Create Different Screen Play");
+
+            foundScreenPlay.setName(screenPlay.getName());
+            foundScreenPlay.setGenre(screenPlay.getGenre());
+            foundScreenPlay.setDescription(screenPlay.getDescription());
+
+            LocalDateTime createdAtTime = LocalDateTime.now();
+            foundScreenPlay.setCreatedAt(createdAtTime);
+            foundScreenPlay.setUpdatedAt(createdAtTime);
+
+            String user = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            Writer currentWriter = writerRepository.findByName(user);
+
+            if (foundScreenPlay.getWriter() != null && !foundScreenPlay.getWriter().isEmpty()) {
+                foundScreenPlay.getWriter().add(currentWriter);
+            } else {
+                Set<Writer> writerSet = new HashSet<>();
+                writerSet.add(currentWriter);
+                foundScreenPlay.setWriter(writerSet);
+            }
+
+            ScreenPlay savedScreenPlay = screenPlayRepository.save(foundScreenPlay);
+            responseDto.setData(savedScreenPlay);
+            responseDto.setStatus(200);
+            responseDto.setMessage("Screen Play Registered");
+            return responseDto;
         } else {
             ScreenPlay newScreenplay = new ScreenPlay();
 
@@ -98,7 +123,6 @@ public class ScreenPlayService implements IScreenPlayService {
                     .collect(Collectors.toList());
 
             log.info("names" + names + screenPlay.get().getWriter());
-
 
             Map<String, String> m = new HashMap();
 

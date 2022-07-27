@@ -25,6 +25,12 @@ public class WriterController {
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
+    @PostMapping("public/writer")
+    public ResponseEntity publicAddWriter(@Valid @RequestBody WriterDto writer) {
+        ResponseDto result = writerService.addWriter(writer);
+        return ResponseEntity.status(result.getStatus()).body(result);
+    }
+
     @GetMapping("/public/writer/{id}")
     public ResponseEntity getWriter(@Valid @PathVariable("id") int id) {
         ResponseDto result = writerService.getWriter(id);

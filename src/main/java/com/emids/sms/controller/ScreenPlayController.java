@@ -6,6 +6,7 @@ import com.emids.sms.service.ScreenPlayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,6 +15,10 @@ import javax.validation.constraints.NotNull;
 @Slf4j
 @RestController
 public class ScreenPlayController {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
 
     @Autowired
     private ScreenPlayService screenPlayService;
@@ -46,5 +51,11 @@ public class ScreenPlayController {
     public ResponseEntity deleteScreenPlays(@PathVariable("id") int id) {
         ResponseDto result = screenPlayService.deleteScreenPlay(id);
         return ResponseEntity.status(result.getStatus()).body(result);
+    }
+
+    @GetMapping("/public")
+    public String test() {
+        log.info(passwordEncoder.encode("pass123"));
+        return "test";
     }
 }

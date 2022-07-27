@@ -22,8 +22,11 @@ public class ScreenPlay implements Serializable {
     private String genre;
     private String description;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "screenplay")
+//    @JsonManagedReference
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "screenplay")
+//    private Set<Writer> writer = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Writer> writer = new HashSet<>();
 
     private LocalDateTime createdAt;
