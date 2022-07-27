@@ -38,7 +38,7 @@ public class WriterController {
     }
 
     @PutMapping("/writer/{id}")
-    public ResponseEntity updateWriter(@Valid @RequestBody WriterDto writer, @Valid @PathVariable("id") @NotNull int id) {
+    public ResponseEntity updateWriter(@RequestBody WriterDto writer, @Valid @PathVariable("id") @NotNull int id) {
         ResponseDto result = writerService.updateWriter(writer, id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }

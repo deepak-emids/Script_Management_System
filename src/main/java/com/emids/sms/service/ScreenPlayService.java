@@ -97,6 +97,8 @@ public class ScreenPlayService implements IScreenPlayService {
                     .map(f -> f.getName())
                     .collect(Collectors.toList());
 
+            log.info("names" + names + screenPlay.get().getWriter());
+
 
             Map<String, String> m = new HashMap();
 

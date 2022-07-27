@@ -110,6 +110,7 @@ public class WriterService implements IWriterService {
             }
 
             Writer updated = writerRepository.save(writer.get());
+            updated.setPassword("");
             responseDto.setData(updated);
             responseDto.setMessage("Writer Updated");
             responseDto.setStatus(200);
