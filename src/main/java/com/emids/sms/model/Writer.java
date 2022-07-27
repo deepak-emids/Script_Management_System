@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
