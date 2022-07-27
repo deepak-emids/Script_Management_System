@@ -31,26 +31,27 @@ public class WriterService implements IWriterService {
         Writer foundWriter = writerRepository.findByName(writer.getName());
 
         if (foundWriter != null) {
-            throw new WriterException("Writer already registered, Use Different Name.");
+            throw new WriterException("Writer already registered,Use Different Name.");
         } else {
-            Writer emp = new Writer();
+            Writer newWriter = new Writer();
 
-            emp.setName(writer.getName());
-            emp.setAge(writer.getAge());
-            emp.setGender(writer.getGender());
-            emp.setRole(writer.getRole());
+            newWriter.setName(writer.getName());
+            newWriter.setAge(writer.getAge());
+            newWriter.setGender(writer.getGender());
+            newWriter.setRole(writer.getRole());
 
             String pwd = writer.getPassword();
             String encryptPwd = passwordEncoder.encode(pwd);
 
-            emp.setPassword(encryptPwd);
+            newWriter.setPassword(encryptPwd);
 
             LocalDateTime createdAtTime = LocalDateTime.now();
-            emp.setCreatedAt(createdAtTime);
-            emp.setUpdatedAt(createdAtTime);
+            newWriter.setCreatedAt(createdAtTime);
+            newWriter.setUpdatedAt(createdAtTime);
 
-            Writer saved = writerRepository.save(emp);
-            responseDto.setData(saved);
+            Writer savedWriter = writerRepository.save(newWriter);
+            savedWriter.setPassword("");
+            responseDto.setData(savedWriter);
             responseDto.setStatus(200);
             responseDto.setMessage("Writer Registered");
             return responseDto;
@@ -60,13 +61,13 @@ public class WriterService implements IWriterService {
     public ResponseDto getAllWriter() {
         ResponseDto responseDto = new ResponseDto();
 
-        List<Writer> writer = new ArrayList<>();
-        writerRepository.findAll().forEach(writer::add);
+        List<Writer> foundWriter = new ArrayList<>();
+        writerRepository.findAll().forEach(foundWriter::add);
 
-        if (writer.size() == 0) {
+        if (foundWriter.size() == 0) {
             throw new WriterException("Writer Not Found");
         } else {
-            responseDto.setData(writer);
+            responseDto.setData(foundWriter);
             responseDto.setStatus(200);
             responseDto.setMessage("Writers Fetched");
         }
@@ -77,12 +78,13 @@ public class WriterService implements IWriterService {
     public ResponseDto getWriter(int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<Writer> writer = writerRepository.findById(id);
+        Optional<Writer> foundWriter = writerRepository.findById(id);
 
-        if (writer.isEmpty()) {
+        if (foundWriter.isEmpty()) {
             throw new WriterException("Writer Not Found");
         } else {
-            responseDto.setData(writer);
+            foundWriter.get().setPassword("");
+            responseDto.setData(foundWriter);
             responseDto.setMessage("Writer Found");
             responseDto.setStatus(200);
         }
@@ -90,26 +92,26 @@ public class WriterService implements IWriterService {
     }
 
     @Override
-    public ResponseDto updateWriter(WriterDto emp, int id) {
+    public ResponseDto updateWriter(WriterDto newData, int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<Writer> writer = writerRepository.findById(id);
+        Optional<Writer> foundWriter = writerRepository.findById(id);
 
-        if (writer.isEmpty()) {
+        if (foundWriter.isEmpty()) {
             throw new WriterException("Writer Not Found");
         } else {
-            writer.get().setAge(emp.getAge());
-            writer.get().setGender(emp.getGender());
-            writer.get().setRole(emp.getRole());
+            foundWriter.get().setAge(newData.getAge());
+            foundWriter.get().setGender(newData.getGender());
+            foundWriter.get().setRole(newData.getRole());
 
-            String pwd = emp.getPassword();
+            String pwd = newData.getPassword();
 
             if (pwd != null) {
                 String encryptPwd = passwordEncoder.encode(pwd);
-                writer.get().setPassword(encryptPwd);
+                foundWriter.get().setPassword(encryptPwd);
             }
 
-            Writer updated = writerRepository.save(writer.get());
+            Writer updated = writerRepository.save(foundWriter.get());
             updated.setPassword("");
             responseDto.setData(updated);
             responseDto.setMessage("Writer Updated");
@@ -122,9 +124,9 @@ public class WriterService implements IWriterService {
     public ResponseDto deleteWriter(int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<Writer> writer = writerRepository.findById(id);
+        Optional<Writer> foundWriter = writerRepository.findById(id);
 
-        if (writer.isEmpty()) {
+        if (foundWriter.isEmpty()) {
             throw new WriterException("Writer Not Found");
         } else {
             writerRepository.deleteById(id);

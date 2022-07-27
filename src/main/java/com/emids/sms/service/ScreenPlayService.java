@@ -93,14 +93,14 @@ public class ScreenPlayService implements IScreenPlayService {
     public ResponseDto getAllScreenPlay() {
         ResponseDto responseDto = new ResponseDto();
 
-        List<ScreenPlay> screenPlay = new ArrayList<>();
-        screenPlayRepository.findAll().forEach(screenPlay::add);
+        List<ScreenPlay> foundScreenPlay = new ArrayList<>();
+        screenPlayRepository.findAll().forEach(foundScreenPlay::add);
 
-        if (screenPlay.size() == 0) {
+        if (foundScreenPlay.size() == 0) {
             throw new ScreenPlayException("Screen Play Not Found");
         } else {
 
-            responseDto.setData(screenPlay);
+            responseDto.setData(foundScreenPlay);
             responseDto.setStatus(200);
             responseDto.setMessage("Screen Plays Fetched");
         }
@@ -143,16 +143,19 @@ public class ScreenPlayService implements IScreenPlayService {
     public ResponseDto updateScreenPlay(ScreenPlayDto emp, int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
+        Optional<ScreenPlay> foundScreenPlay = screenPlayRepository.findById(id);
 
-        if (screenPlay.isEmpty()) {
+        if (foundScreenPlay.isEmpty()) {
             throw new ScreenPlayException("screenPlay Not Found");
         } else {
-            screenPlay.get().setName(emp.getName());
-            screenPlay.get().setGenre(emp.getGenre());
-            screenPlay.get().setDescription(emp.getDescription());
+            foundScreenPlay.get().setName(emp.getName());
+            foundScreenPlay.get().setGenre(emp.getGenre());
+            foundScreenPlay.get().setDescription(emp.getDescription());
 
-            ScreenPlay updated = screenPlayRepository.save(screenPlay.get());
+            LocalDateTime createdAtTime = LocalDateTime.now();
+            foundScreenPlay.get().setUpdatedAt(createdAtTime);
+
+            ScreenPlay updated = screenPlayRepository.save(foundScreenPlay.get());
             responseDto.setData(updated);
             responseDto.setMessage("screenPlay Updated");
             responseDto.setStatus(200);
@@ -164,9 +167,9 @@ public class ScreenPlayService implements IScreenPlayService {
     public ResponseDto deleteScreenPlay(int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
+        Optional<ScreenPlay> foundScreenPlay = screenPlayRepository.findById(id);
 
-        if (screenPlay.isEmpty()) {
+        if (foundScreenPlay.isEmpty()) {
             throw new ScreenPlayException("screenPlay Not Found");
         } else {
             screenPlayRepository.deleteById(id);
