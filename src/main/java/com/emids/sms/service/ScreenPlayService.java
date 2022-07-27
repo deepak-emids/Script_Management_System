@@ -1,5 +1,6 @@
 package com.emids.sms.service;
 
+import com.emids.sms.dto.GetScreenPlayDto;
 import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.dto.ScreenPlayDto;
 import com.emids.sms.exceptions.ScreenPlayException;
@@ -56,7 +57,7 @@ public class ScreenPlayService implements IScreenPlayService {
             ScreenPlay savedScreenPlay = screenPlayRepository.save(foundScreenPlay);
             responseDto.setData(savedScreenPlay);
             responseDto.setStatus(200);
-            responseDto.setMessage("Screen Play Registered");
+            responseDto.setMessage("Screen Play Updated");
             return responseDto;
         } else {
             ScreenPlay newScreenplay = new ScreenPlay();
@@ -84,7 +85,7 @@ public class ScreenPlayService implements IScreenPlayService {
             ScreenPlay savedScreenPlay = screenPlayRepository.save(newScreenplay);
             responseDto.setData(savedScreenPlay);
             responseDto.setStatus(200);
-            responseDto.setMessage("Screen Play Registered");
+            responseDto.setMessage("New Screen Play Added");
             return responseDto;
         }
     }
@@ -110,30 +111,28 @@ public class ScreenPlayService implements IScreenPlayService {
     public ResponseDto getScreenPlay(int id) {
         ResponseDto responseDto = new ResponseDto();
 
-        Optional<ScreenPlay> screenPlay = screenPlayRepository.findById(id);
+        Optional<ScreenPlay> foundScreenPlay = screenPlayRepository.findById(id);
 
-        if (screenPlay.isEmpty()) {
+        if (foundScreenPlay.isEmpty()) {
             throw new ScreenPlayException("Screen Play Not Found");
         } else {
-            List<String> names = screenPlay
+            List<String> names = foundScreenPlay
                     .get()
                     .getWriter()
                     .stream()
                     .map(f -> f.getName())
                     .collect(Collectors.toList());
 
-            log.info("names" + names + screenPlay.get().getWriter());
+            GetScreenPlayDto spDto = new GetScreenPlayDto();
+            spDto.setId(foundScreenPlay.get().getId());
+            spDto.setName(foundScreenPlay.get().getName());
+            spDto.setGenre(foundScreenPlay.get().getGenre());
+            spDto.setDescription(foundScreenPlay.get().getDescription());
+            spDto.setWriters(names);
+            spDto.setCreatedAt(foundScreenPlay.get().getCreatedAt());
+            spDto.setCreatedAt(foundScreenPlay.get().getUpdatedAt());
 
-            Map<String, String> m = new HashMap();
-
-            m.put("name", screenPlay.get().getName());
-            m.put("genre", screenPlay.get().getGenre());
-            m.put("description", screenPlay.get().getDescription());
-            m.put("writers", names.toString());
-            m.put("createdAt", screenPlay.get().getCreatedAt().toString());
-            m.put("updatedAt", screenPlay.get().getUpdatedAt().toString());
-
-            responseDto.setData(m);
+            responseDto.setData(spDto);
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
         }
