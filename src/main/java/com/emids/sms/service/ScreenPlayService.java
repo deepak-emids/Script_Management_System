@@ -9,7 +9,11 @@ import com.emids.sms.repository.ScreenPlayRepository;
 import com.emids.sms.repository.WriterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +31,6 @@ public class ScreenPlayService implements IScreenPlayService {
     @Override
     public ResponseDto addScreenPlay(ScreenPlayDto screenPlay) {
         ResponseDto responseDto = new ResponseDto();
-
         ScreenPlay foundScreenPlay = screenPlayRepository.findByName(screenPlay.getName());
 
         if (foundScreenPlay != null) {
@@ -89,7 +92,21 @@ public class ScreenPlayService implements IScreenPlayService {
                     .map(f -> f.getName())
                     .collect(Collectors.toList());
 
-            responseDto.setData(screenPlay.get());
+
+            Map<String, String> m = new HashMap();
+
+            m.put("name", screenPlay.get().getName());
+            m.put("genre", screenPlay.get().getGenre());
+            m.put("description", screenPlay.get().getDescription());
+            m.put("writers", names.toString());
+            m.put("createdAt", screenPlay.get().getCreatedAt().toString());
+            m.put("updatedAt", screenPlay.get().getUpdatedAt().toString());
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            log.info("String user=" + auth.getPrincipal());
+
+
+            responseDto.setData(m);
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
         }
