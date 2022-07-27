@@ -5,18 +5,17 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Data
 public class ScreenPlayDto {
-    @NotNull
+    @NotEmpty
     public String name;
 
-    @NotNull
     public String genre;
-
-    @NotNull
+    
     public String description;
 }

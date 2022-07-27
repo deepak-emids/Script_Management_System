@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
@@ -29,13 +31,13 @@ public class ScreenPlayController {
     }
 
     @PutMapping("screenplay/{id}")
-    public ResponseEntity updateScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay, @Valid @PathVariable("id") int id) {
+    public ResponseEntity updateScreenPlay(@Valid @RequestBody ScreenPlayDto screenPlay, @Valid @PathVariable("id") @NotNull int id) {
         ResponseDto result = screenPlayService.updateScreenPlay(screenPlay, id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
     @DeleteMapping("screenplay/{id}")
-    public ResponseEntity deleteScreenPlays(@Valid @PathVariable("id") int id) {
+    public ResponseEntity deleteScreenPlays(@PathVariable("id") int id) {
         ResponseDto result = screenPlayService.deleteScreenPlay(id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }

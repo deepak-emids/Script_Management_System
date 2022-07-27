@@ -10,6 +10,7 @@ import com.emids.sms.service.WriterService;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
@@ -32,13 +33,13 @@ public class WriterController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity updateWriter(@Valid @RequestBody WriterDto writer, @Valid @PathVariable("id") int id) {
+    public ResponseEntity updateWriter(@Valid @RequestBody WriterDto writer, @Valid @PathVariable("id") @NotNull int id) {
         ResponseDto result = writerService.updateWriter(writer, id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity deleteWriters(@Valid @PathVariable("id") int id) {
+    public ResponseEntity deleteWriters(@PathVariable("id") @NotNull int id) {
         ResponseDto result = writerService.deleteWriter(id);
         return ResponseEntity.status(result.getStatus()).body(result);
     }

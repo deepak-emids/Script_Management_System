@@ -9,9 +9,7 @@ import com.emids.sms.repository.ScreenPlayRepository;
 import com.emids.sms.repository.WriterRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,25 +32,32 @@ public class ScreenPlayService implements IScreenPlayService {
         ScreenPlay foundScreenPlay = screenPlayRepository.findByName(screenPlay.getName());
 
         if (foundScreenPlay != null) {
-            throw new ScreenPlayException("Screen already present, Use Different Name");
+            throw new ScreenPlayException("Screen Play already present,You Update or Create Different Screen Play");
         } else {
+            ScreenPlay newScreenplay = new ScreenPlay();
 
-            ScreenPlay sp = new ScreenPlay();
-
-            sp.setName(screenPlay.getName());
-            sp.setGenre(screenPlay.getGenre());
-            sp.setDescription(screenPlay.getDescription());
+            newScreenplay.setName(screenPlay.getName());
+            newScreenplay.setGenre(screenPlay.getGenre());
+            newScreenplay.setDescription(screenPlay.getDescription());
 
             LocalDateTime createdAtTime = LocalDateTime.now();
-            sp.setCreatedAt(createdAtTime);
-            sp.setUpdatedAt(createdAtTime);
+            newScreenplay.setCreatedAt(createdAtTime);
+            newScreenplay.setUpdatedAt(createdAtTime);
 
-            Writer writer = writerRepository.findByName("deep");
+            String user = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            writer.getScreenplay().add(sp);
+            Writer currentWriter = writerRepository.findByName(user);
 
-            Writer saved = writerRepository.save(writer);
-            responseDto.setData(saved);
+            if (newScreenplay.getWriter() != null && !newScreenplay.getWriter().isEmpty()) {
+                newScreenplay.getWriter().add(currentWriter);
+            } else {
+                Set<Writer> writerSet = new HashSet<>();
+                writerSet.add(currentWriter);
+                newScreenplay.setWriter(writerSet);
+            }
+
+            ScreenPlay savedScreenPlay = screenPlayRepository.save(newScreenplay);
+            responseDto.setData(savedScreenPlay);
             responseDto.setStatus(200);
             responseDto.setMessage("Screen Play Registered");
             return responseDto;
@@ -102,21 +107,6 @@ public class ScreenPlayService implements IScreenPlayService {
             m.put("createdAt", screenPlay.get().getCreatedAt().toString());
             m.put("updatedAt", screenPlay.get().getUpdatedAt().toString());
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            log.info("String user=" + auth.getPrincipal());
-
-//            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//            if (principal instanceof UserDetails) {
-//                String username = ((UserDetails) principal).getUsername();
-//                log.info("String user=" + username);
-//
-//            } else {
-//                String username = principal.toString();
-//                log.info("String user=" + username);
-//
-//            }
-
             responseDto.setData(m);
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
@@ -135,6 +125,7 @@ public class ScreenPlayService implements IScreenPlayService {
         } else {
             screenPlay.get().setName(emp.getName());
             screenPlay.get().setGenre(emp.getGenre());
+            screenPlay.get().setDescription(emp.getDescription());
 
             ScreenPlay updated = screenPlayRepository.save(screenPlay.get());
             responseDto.setData(updated);
