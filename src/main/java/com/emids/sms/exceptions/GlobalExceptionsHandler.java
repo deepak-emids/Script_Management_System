@@ -32,9 +32,4 @@ public class GlobalExceptionsHandler {
         return new ResponseEntity<ExceptionDto>(new ExceptionDto(new Date(),
                 "Enter Valid Data For Writer.Sample Data,Gender-MALE/FEMALE/OTHER,Role-ADMIN/WRITER,Age-Valid Number,Password and Name Not Empty"), HttpStatus.BAD_REQUEST);
     }
-
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ExceptionDto> Exception(Exception e) {
-//        return new ResponseEntity<ExceptionDto>(new ExceptionDto(new Date(), e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
 }

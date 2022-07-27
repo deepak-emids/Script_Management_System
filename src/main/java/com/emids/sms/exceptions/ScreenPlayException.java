@@ -9,7 +9,6 @@ import lombok.Setter;
 @Data
 public class ScreenPlayException extends RuntimeException {
     String message;
-
     public ScreenPlayException(String message) {
         this.message = message;
     }

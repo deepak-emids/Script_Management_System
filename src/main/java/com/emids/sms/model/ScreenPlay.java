@@ -28,7 +28,7 @@ public class ScreenPlay implements Serializable {
     private String description;
 
     @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL/*,mappedBy = "screenplay"*/)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH/*,mappedBy = "screenplay"*/)
     private Set<Writer> writer = new HashSet<>();
 
 
