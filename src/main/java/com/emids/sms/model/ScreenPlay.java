@@ -1,15 +1,15 @@
 package com.emids.sms.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,9 +28,12 @@ public class ScreenPlay implements Serializable {
     private String description;
 
     @JsonManagedReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH/*,mappedBy = "screenplay"*/)
     private Set<Writer> writer = new HashSet<>();
 
+    @Transient
+    private List<String> writers;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

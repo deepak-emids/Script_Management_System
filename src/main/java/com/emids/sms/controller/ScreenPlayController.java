@@ -19,7 +19,6 @@ public class ScreenPlayController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
     @Autowired
     private ScreenPlayService screenPlayService;
 
@@ -51,11 +50,5 @@ public class ScreenPlayController {
     public ResponseEntity deleteScreenPlays(@PathVariable("id") int id) {
         ResponseDto result = screenPlayService.deleteScreenPlay(id);
         return ResponseEntity.status(result.getStatus()).body(result);
-    }
-
-    @GetMapping("/public")
-    public String test() {
-        log.info(passwordEncoder.encode("pass123"));
-        return "test";
     }
 }

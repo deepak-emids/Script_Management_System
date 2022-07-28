@@ -2,16 +2,12 @@ package com.emids.sms.dto;
 
 import com.emids.sms.model.Gender;
 import com.emids.sms.model.Role;
-import com.emids.sms.model.RoleType;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.Valid;
 import javax.validation.constraints.*;
-import java.util.Set;
 
 @Getter
 @Setter

@@ -3,7 +3,6 @@ package com.emids.sms.controller;
 import com.emids.sms.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.emids.sms.dto.WriterDto;
 import com.emids.sms.service.WriterService;

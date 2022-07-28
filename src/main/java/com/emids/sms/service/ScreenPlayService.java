@@ -1,6 +1,5 @@
 package com.emids.sms.service;
 
-import com.emids.sms.dto.GetScreenPlayDto;
 import com.emids.sms.dto.ResponseDto;
 import com.emids.sms.dto.ScreenPlayDto;
 import com.emids.sms.exceptions.ScreenPlayException;
@@ -123,16 +122,9 @@ public class ScreenPlayService implements IScreenPlayService {
                     .map(f -> f.getName())
                     .collect(Collectors.toList());
 
-            GetScreenPlayDto spDto = new GetScreenPlayDto();
-            spDto.setId(foundScreenPlay.get().getId());
-            spDto.setName(foundScreenPlay.get().getName());
-            spDto.setGenre(foundScreenPlay.get().getGenre());
-            spDto.setDescription(foundScreenPlay.get().getDescription());
-            spDto.setWriters(names);
-            spDto.setCreatedAt(foundScreenPlay.get().getCreatedAt());
-            spDto.setCreatedAt(foundScreenPlay.get().getUpdatedAt());
+            foundScreenPlay.get().setWriters(names);
 
-            responseDto.setData(spDto);
+            responseDto.setData(foundScreenPlay);
             responseDto.setMessage("screenPlay Found");
             responseDto.setStatus(200);
         }
